@@ -7,6 +7,39 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <!--Table-->
+        <Grid Grid.Row="0" Grid.Column="0" Name="gridTable">
+            
+        </Grid>
+        <!--ParamInTextBox-->
+        <Grid Grid.Row="0" Grid.Column="1">
+            <StackPanel>
+
+            </StackPanel>
+        </Grid>
+        <!--Graphic1-->
+        <Grid Grid.Row="1" Grid.Column="0">
+
+        </Grid>
+        <!--Graphic2-->
+        <Grid Grid.Row="1" Grid.Column="1">
+
+        </Grid>
+        <!--Buttons-->
+        <Grid Grid.Row="2" Grid.ColumnSpan="2">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Name="btnStart" Content="Start" Click="btnStart_Click"/>
+                <Button>Exit</Button>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>

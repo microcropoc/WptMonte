@@ -20,9 +20,18 @@ namespace WpfMonte
     /// </summary>
     public partial class MainWindow : Window
     {
+        const int N = 200;
+        FieldControl fieldView;
         public MainWindow()
         {
             InitializeComponent();
+            fieldView = new FieldControl(N);
+            gridTable.Children.Add(fieldView);
+        }
+
+        private void btnStart_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
