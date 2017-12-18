@@ -20,28 +20,43 @@ namespace WpfMonte
     /// </summary>
     public partial class FieldControl : UserControl
     {
-        public FieldControl(int N)
+        public FieldControl()
         {
-            InitializeComponent();
-            for (int i = 0; i < N; i++)
-            {
-                grid.ColumnDefinitions.Add(new ColumnDefinition());
+            InitializeComponent(); 
+        }
+
+        public void SetMatrix(int[,] matrix)
+        {
+            grid.RowDefinitions.Clear();
+            grid.ColumnDefinitions.Clear();
+            //0-i-row
+            for (int i = 0; i < matrix.GetLength(0); i++)
                 grid.RowDefinitions.Add(new RowDefinition());
-            }
-            Random rand = new Random();
-            for (int i = 0; i < N; i++)
-            for (int j = 0; j < N; j++)
+            //1-j-column
+            for (int j = 0; j < matrix.GetLength(1); j++)
+                grid.ColumnDefinitions.Add(new ColumnDefinition());
+
+            for (int i = 0; i < matrix.GetLength(0); i++)
+            for (int j = 0; j < matrix.GetLength(1); j++)
             {
                 var rec = new Rectangle();
                 grid.Children.Add(rec);
+
                 Grid.SetRow(rec, i);
                 Grid.SetColumn(rec, j);
-                if (rand.Next(0, 3) == 0)
-                    rec.Fill = Brushes.Red;
-                else
-                    rec.Fill = Brushes.Black;
+
+                switch (matrix[i, j])
+                {
+                    case -1:
+                        rec.Fill = Brushes.Black;
+                        break;
+                    case 1:
+                        rec.Fill = Brushes.Red;
+                        break;
+                    default:
+                        throw new Exception();
+                }  
             }
-            
         }
     }
 }
