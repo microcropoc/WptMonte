@@ -23,7 +23,14 @@
         <!--ParamInTextBox-->
         <Grid Grid.Row="0" Grid.Column="1">
             <StackPanel>
-
+                <TextBlock Margin="0,10,0,0" >Число частиц в ряду</TextBlock>
+                <TextBox  Name ="textNch">0</TextBox>
+                <TextBlock> Число попыток</TextBlock>
+                <TextBox  Name="textNp">0</TextBox>
+                <TextBlock > Т(К)</TextBlock>
+                <TextBox Name="textT"></TextBox>
+                <TextBlock> Число МКШ</TextBlock>
+                <TextBlock Name="textNmkh"></TextBlock>
             </StackPanel>
         </Grid>
         <!--Graphic1-->
@@ -36,9 +43,9 @@
         </Grid>
         <!--Buttons-->
         <Grid Grid.Row="2" Grid.ColumnSpan="2">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Name="btnStart" Content="Start" Click="btnStart_Click"/>
-                <Button>Exit</Button>
+            <StackPanel Orientation="Horizontal" Height="34"  HorizontalAlignment="Right">
+                <Button Name="btnStart" Content="Start" Width="50" Click="btnStart_Click"/>
+                <Button Width="50">Exit</Button>
             </StackPanel>
         </Grid>
     </Grid>
