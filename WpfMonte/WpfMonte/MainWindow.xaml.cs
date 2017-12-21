@@ -34,49 +34,16 @@ namespace WpfMonte
         const int N = 100;
         FieldControl fieldView;
         int[,] matrix;
-
-
-        public static int Nch;
-        public static double T;
-        public static int Nmch;
-
-        public int Np { get; private set; }
-
         public MainWindow()
         {
             InitializeComponent();
-
-           // int Nch = Convert.ToInt32(textNch.Text);
-            int Np = Convert.ToInt32(textNp.Text);
-            //Nch = int.Parse(textNch.Text);
-            //Np = int.Parse(textNp.Text);
-            //T = int.Parse(textT.Text);
-
             fieldView = new FieldControl();
             gridTable.Children.Add(fieldView);
 
             InitializeMatrix();
-            
             fieldView.SetMatrix(matrix);
 
-           
-            
         }
-        //public void Exp()
-        //{
-        //    double к = 1.3 * Math.Pow(10, -23);
-        //    double exp_4 = Math.Exp(-4 / (к * Т));
-        //    double exp_3 = Math.Exp(-3 / к * Т);
-        //    double exp_2 = Math.Exp(-2 / к * Т);
-        //    double exp_1 = Math.Exp(-1 / к * Т);
-        //    double exp0 = Math.Exp(0 / к * Т);
-        //    double exp1 = Math.Exp(1 / к * Т);
-        //    double exp2 = Math.Exp(2 / к * Т);
-        //    double exp3 = Math.Exp(3 / к * Т);
-        //    double exp4 = Math.Exp(4 / к * Т);
-        //}
-
-        
 
         public void InitializeMatrix()
         {
@@ -122,7 +89,7 @@ namespace WpfMonte
 
             var sw = new System.Diagnostics.Stopwatch();
             sw.Start();
-            for (int i = 0; i < Np; i++)
+            for (int i = 0; i < 5000000; i++)
             {
                 
                 #region State1
