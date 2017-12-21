@@ -31,22 +31,28 @@ namespace WpfMonte
     /// </summary>
     public partial class MainWindow : Window
     {
-        const int N = 100;
+        //const int N = 100;
+        List <double> listExp;
         FieldControl fieldView;
         int[,] matrix;
+        double к = 1.3 * Math.Pow(10, -23);
+        int N;
+        int Nmkh;
         public MainWindow()
         {
             InitializeComponent();
             fieldView = new FieldControl();
             gridTable.Children.Add(fieldView);
-
-            InitializeMatrix();
-            fieldView.SetMatrix(matrix);
+                   
+    
+           
 
         }
+        
 
         public void InitializeMatrix()
         {
+            N = int.Parse(textNch.Text);
             matrix = new int[N,N];
             List<Cell> listPos = new List<Cell>();
             for (int i = 0; i < matrix.GetLength(0); i++)
@@ -73,7 +79,19 @@ namespace WpfMonte
         }    
 
         private void btnStart_Click(object sender, RoutedEventArgs e)
-        {
+        {   
+            double T = int.Parse(textT.Text);
+            listExp = new List<double>() {
+            Math.Exp(-4 / -(к * T)),
+            Math.Exp(-3 / -к * T),
+            Math.Exp(-2 / -к * T),
+            Math.Exp(-1 / -к * T),
+            Math.Exp(0 / -к * T),
+            Math.Exp(1 / -к * T),
+            Math.Exp(2 /- к * T),
+            Math.Exp(3 / -к * T),
+            Math.Exp(4 / -к * T) };
+
 
             Random rand = new Random();
 
@@ -89,7 +107,7 @@ namespace WpfMonte
 
             var sw = new System.Diagnostics.Stopwatch();
             sw.Start();
-            for (int i = 0; i < 5000000; i++)
+            for (int i = 0; i < int.Parse(textNp.Text); i++)
             {
                 
                 #region State1
@@ -131,8 +149,8 @@ namespace WpfMonte
                 }
 
                 #endregion
-
-                if (e1 - e2 < 0 /*|| rand.Next(0, 2) < Math.Exp((e1 - e2) / 0.026)*/)
+                var rand1 = rand.Next(0, 2);
+                if (e1 - e2 < 0 /*|| listExp.Any(p=>rand1 < p  )*/)
                 {
                     //перемещение элементов без доп. переменных
                     matrix[selectCell.I, selectCell.J] = matrix[selectCell.I, selectCell.J] + matrix[friendCell.I, friendCell.J];
@@ -142,6 +160,21 @@ namespace WpfMonte
             }
             sw.Stop();
             fieldView.SetMatrix(matrix);
+        }
+
+        private void btnIni_Click(object sender, RoutedEventArgs e)
+        {
+            Nmkh = int.Parse(textNp.Text) / int.Parse(textNch.Text)* int.Parse(textNch.Text); 
+            textNmkh.Text = Nmkh.ToString();
+            InitializeMatrix();
+            fieldView.SetMatrix(matrix);
+        }
+
+        private void btnGrap_Click(object sender, RoutedEventArgs e)
+        {
+
+
+
         }
     }
 }
