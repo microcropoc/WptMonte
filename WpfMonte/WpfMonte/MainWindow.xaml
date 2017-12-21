@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:oxy="clr-namespace:OxyPlot.Wpf;assembly=OxyPlot.Wpf"
         xmlns:local="clr-namespace:WpfMonte"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
@@ -17,9 +18,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <!--Table-->
-        <Grid Grid.Row="0" Grid.Column="0" Name="gridTable">
-            
-        </Grid>
+        <Grid Grid.Row="0" Grid.Column="0" Name="gridTable"/>
         <!--ParamInTextBox-->
         <Grid Grid.Row="0" Grid.Column="1">
             <StackPanel>
@@ -35,11 +34,11 @@
         </Grid>
         <!--Graphic1-->
         <Grid Grid.Row="1" Grid.Column="0">
-
+            <oxy:PlotView Name="graphEnergy"/>
         </Grid>
         <!--Graphic2-->
         <Grid Grid.Row="1" Grid.Column="1">
-
+            <oxy:PlotView Name="graphTE"/>
         </Grid>
         <!--Buttons-->
         <Grid Grid.Row="2" Grid.ColumnSpan="2">
