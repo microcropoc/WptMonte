@@ -111,7 +111,7 @@ namespace WpfMonte
 
         private void btnStart_Click(object sender, RoutedEventArgs e)
         {
-            string deltaE = "";
+            StringBuilder sbDeltaEs = new StringBuilder(CountIter*10);
             Random rand = new Random();
 
             int[] valFiendCells1 = new int[4];
@@ -198,7 +198,7 @@ namespace WpfMonte
                         matrix[friendCell.I, friendCell.J] = matrix[selectCell.I, selectCell.J] - matrix[friendCell.I, friendCell.J];
                         matrix[selectCell.I, selectCell.J] = matrix[selectCell.I, selectCell.J] - matrix[friendCell.I, friendCell.J];
                     }
-                    deltaE += (e2 - e1).ToString() +'\n';
+                    sbDeltaEs.AppendLine((e2 - e1).ToString());
                 }
                 double summ = 0;
                 for (int k = 0; k < matrix.GetLength(0)/2; k++)
@@ -209,7 +209,7 @@ namespace WpfMonte
                 //listpointEn.Add(new Point(, (summ/N)));
             }
             fieldView.SetMatrix(matrix);
-            File.AppendAllText(@"C:\Users\Artyo\Desktop\Test.txt", (deltaE));
+          //  File.AppendAllText(@"C:\Users\Artyo\Desktop\Test.txt", (deltaE));
         }
 
         private void btnIni_Click(object sender, RoutedEventArgs e)
