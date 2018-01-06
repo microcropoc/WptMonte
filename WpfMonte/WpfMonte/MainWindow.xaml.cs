@@ -2,6 +2,7 @@
 using OxyPlot.Series;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,11 +38,11 @@ namespace WpfMonte
         List <double> listExp;
         FieldControl fieldView;
         int[,] matrix;
-        double к = 1.3 * Math.Pow(10, -23);
+        double к =0.001 /*1.3 * Math.Pow(10, -23)*/;
         int N;
         int Nmkh;
         LineSeries lineEnergy;
-        LineSeries lineTE;
+        LineSeries lineC;
 
         public MainWindow()
         {
@@ -66,12 +67,12 @@ namespace WpfMonte
 
             var GraphModel1 = new PlotModel { Title = "TempEmcost" };
 
-            lineTE = new LineSeries { Title = "T", MarkerType = MarkerType.Circle };
-            lineTE.Points.Add(new DataPoint(0, 0));
+            lineC = new LineSeries { Title = "T", MarkerType = MarkerType.Circle };
+            lineC.Points.Add(new DataPoint(0, 0));
 
-            GraphModel1.Series.Add(lineTE);
+            GraphModel1.Series.Add(lineC);
 
-            graphTE.Model = GraphModel1;
+            graphC.Model = GraphModel1;
 
             #endregion
 
@@ -109,7 +110,8 @@ namespace WpfMonte
         int CountIter;
 
         private void btnStart_Click(object sender, RoutedEventArgs e)
-        {   
+        {
+            string deltaE = "";
             Random rand = new Random();
 
             int[] valFiendCells1 = new int[4];
@@ -122,9 +124,9 @@ namespace WpfMonte
             int e1;
             int e2;
 
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 10; i++)
             {
-                var t = T + T / i;
+                var t = T+1*i;
                 listExp = new List<double>()
                 {
                     Math.Exp(-4 / -(к * t)),
@@ -138,7 +140,7 @@ namespace WpfMonte
                     Math.Exp(4 / -к * t)
                 };
 
-                for (int j = 0; j < CountIter / 20; j++)
+                for (int j = 0; j < CountIter; j++)
                 {
 
                     #region State1
@@ -156,7 +158,7 @@ namespace WpfMonte
 
                     foreach (var item in valFiendCells1)
                     {
-                        e1 = e1 + (matrix[selectCell.I, selectCell.J] + j);
+                        e1 = e1+item;
                     }
 
                     #endregion
@@ -176,44 +178,73 @@ namespace WpfMonte
 
                     foreach (var item in valFiendCells2)
                     {
-                        e2 = e2 + (matrix[friendCell.I, friendCell.J] + j);
+                        e2 = e2+item;
                     }
 
                     #endregion
 
-                    var rand1 = rand.Next(0, 2);
-                    if (e1 - e2 < 0 /*|| listExp.Any(p=>rand1 < p  )*/)
+                    var rand1 = rand.Next(0, 1);
+                    if (e2 - e1 < 0 /*|| listExp.Any(p => rand1 < p)*/)
                     {
                         //перемещение элементов без доп. переменных
                         matrix[selectCell.I, selectCell.J] = matrix[selectCell.I, selectCell.J] + matrix[friendCell.I, friendCell.J];
                         matrix[friendCell.I, friendCell.J] = matrix[selectCell.I, selectCell.J] - matrix[friendCell.I, friendCell.J];
                         matrix[selectCell.I, selectCell.J] = matrix[selectCell.I, selectCell.J] - matrix[friendCell.I, friendCell.J];
                     }
+                    if (e2 - e1 > 0 || listExp.Any(p => rand1 < p))
+                    {
+                        //перемещение элементов без доп. переменных
+                        matrix[selectCell.I, selectCell.J] = matrix[selectCell.I, selectCell.J] + matrix[friendCell.I, friendCell.J];
+                        matrix[friendCell.I, friendCell.J] = matrix[selectCell.I, selectCell.J] - matrix[friendCell.I, friendCell.J];
+                        matrix[selectCell.I, selectCell.J] = matrix[selectCell.I, selectCell.J] - matrix[friendCell.I, friendCell.J];
+                    }
+                    deltaE += (e2 - e1).ToString() +'\n';
                 }
-                lineEnergy.Points.Add(new DataPoint(double.Parse(txtTime.Text), double.Parse(txtKE.Text)));
-                lineTE.Points.Add(new DataPoint(double.Parse(txtTime.Text), double.Parse(txtPE.Text)));
-                graphEnergy.Model.InvalidatePlot(true);
-                graphTE.Model.InvalidatePlot(true);
+                double summ = 0;
+                for (int k = 0; k < matrix.GetLength(0)/2; k++)
+                    for (int l = 0; l < matrix.GetLength(1)/2; l++)
+                    {
+                        summ += matrix[k, l];
+                    }
+                //listpointEn.Add(new Point(, (summ/N)));
             }
             fieldView.SetMatrix(matrix);
+            File.AppendAllText(@"C:\Users\Artyo\Desktop\Test.txt", (deltaE));
         }
 
         private void btnIni_Click(object sender, RoutedEventArgs e)
         {
             N = int.Parse(textNch.Text);
-            T = int.Parse(textT.Text);
+            T = double.Parse(textT.Text);
             CountIter = int.Parse(textNp.Text);
             Nmkh = int.Parse(textNp.Text) / int.Parse(textNch.Text) * int.Parse(textNch.Text); 
-            textNmkh.Text = Nmkh.ToString();
+            textNmkh.Text = (Nmkh/100).ToString();
             InitializeMatrix();
             fieldView.SetMatrix(matrix);
         }
+        List<Point> listpointEn = new List<Point>();
+        List<Point> listpointC = new List<Point>();
+
 
         private void btnGrap_Click(object sender, RoutedEventArgs e)
-        {
+        { 
+            lineEnergy.Points.Clear();
+            lineC.Points.Clear();
+            foreach (var item in listpointEn)
+            {
+                lineEnergy.Points.Add(new DataPoint(item.X,item.Y));
+                
+            }
+            foreach (var item in listpointC)
+            {
+               
+                lineC.Points.Add(new DataPoint(item.X, item.Y));
+            }
+            listpointEn.Clear();
+            listpointC.Clear();
 
-
-
+            graphEnergy.Model.InvalidatePlot(true);
+            graphC.Model.InvalidatePlot(true);
         }
     }
 }

@@ -6,7 +6,7 @@
         xmlns:oxy="clr-namespace:OxyPlot.Wpf;assembly=OxyPlot.Wpf"
         xmlns:local="clr-namespace:WpfMonte"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="800" Width="1000">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -26,8 +26,8 @@
                 <TextBox  Name ="textNch">100</TextBox>
                 <TextBlock> Число попыток</TextBlock>
                 <TextBox  Name="textNp">100000</TextBox>
-                <TextBlock > Т(К)</TextBlock>
-                <TextBox Name="textT">100</TextBox>
+                <TextBlock > Т</TextBlock>
+                <TextBox Name="textT">1</TextBox>
                 <TextBlock> Число МКШ</TextBlock>
                 <TextBlock Name="textNmkh"></TextBlock>
             </StackPanel>
@@ -38,7 +38,7 @@
         </Grid>
         <!--Graphic2-->
         <Grid Grid.Row="1" Grid.Column="1">
-            <oxy:PlotView Name="graphTE"/>
+            <oxy:PlotView Name="graphC"/>
         </Grid>
         <!--Buttons-->
         <Grid Grid.Row="2" Grid.ColumnSpan="2">
