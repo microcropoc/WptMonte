@@ -45,8 +45,8 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Height="35">
                 <Button Name="btnIni" Click="btnIni_Click">Initialization</Button>
                 <Button Name="btnStart" Content="Start" Click="btnStart_Click"/>
-                <Button Name="btnGrap" Click="btnGrap_Click">Graphics</Button>
-                <Button>Exit</Button>
+                <!--<Button Name="btnGrap" Click="btnGrap_Click">Graphics</Button>-->
+                <Button Name="btnExit" Click="btnExit_Click">Exit</Button>
                 
             </StackPanel>
         </Grid>

@@ -115,6 +115,7 @@ namespace WpfMonte
             {
                 InitializeMatrix();
                 fieldView.SetMatrix(matrix);
+                VieweGraphics();
                 return;
             } 
             StringBuilder sbDeltaEs = new StringBuilder(CountIter*10);
@@ -127,8 +128,8 @@ namespace WpfMonte
             Cell selectCell;
             Cell friendCell;
 
-            int e1;
-            int e2;
+            int e1=0;
+            int e2=0;
             int deltae=0;
             for (int i = 0; i < 10; i++)
             {
@@ -213,13 +214,19 @@ namespace WpfMonte
                         summ += matrix[k, l];
                     }
                 listpointEn.Add(new Point(t, (summ / N)));
+                listpointC.Add(new Point(t, e2-e1));
             }
             fieldView.SetMatrix(matrix);
+            VieweGraphics();
           //  File.AppendAllText(@"C:\Users\Artyo\Desktop\Test.txt", (deltaE));
         }
 
         private void btnIni_Click(object sender, RoutedEventArgs e)
         {
+            lineEnergy.Points.Clear();
+            lineC.Points.Clear();
+            graphEnergy.Model.InvalidatePlot(true);
+            graphC.Model.InvalidatePlot(true);
             N = int.Parse(textNch.Text);
             T = double.Parse(textT.Text);
             CountIter = int.Parse(textNp.Text);
@@ -232,7 +239,7 @@ namespace WpfMonte
         List<Point> listpointC = new List<Point>();
 
 
-        private void btnGrap_Click(object sender, RoutedEventArgs e)
+        private void VieweGraphics()
         { 
             lineEnergy.Points.Clear();
             lineC.Points.Clear();
@@ -251,6 +258,11 @@ namespace WpfMonte
 
             graphEnergy.Model.InvalidatePlot(true);
             graphC.Model.InvalidatePlot(true);
+        }
+
+        private void btnExit_Click(object sender, RoutedEventArgs e)
+        {
+            Environment.Exit(0);
         }
     }
 }
