@@ -38,7 +38,7 @@ namespace WpfMonte
         List <double> listExp;
         FieldControl fieldView;
         int[,] matrix;
-        double к =0.001 /*1.3 * Math.Pow(10, -23)*/;
+        double к = 1.3 * Math.Pow(10, -23);
         int N;
         int Nmkh;
         LineSeries lineEnergy;
@@ -111,6 +111,12 @@ namespace WpfMonte
 
         private void btnStart_Click(object sender, RoutedEventArgs e)
         {
+            if (double.Parse(textT.Text) > 2.5)
+            {
+                InitializeMatrix();
+                fieldView.SetMatrix(matrix);
+                return;
+            } 
             StringBuilder sbDeltaEs = new StringBuilder(CountIter*10);
             Random rand = new Random();
 
@@ -123,7 +129,7 @@ namespace WpfMonte
 
             int e1;
             int e2;
-
+            int deltae=0;
             for (int i = 0; i < 10; i++)
             {
                 var t = T+1*i;
@@ -182,7 +188,7 @@ namespace WpfMonte
                     }
 
                     #endregion
-
+                    deltae = e2 - e1;
                     var rand1 = rand.Next(0, 1);
                     if (e2 - e1 < 0 /*|| listExp.Any(p => rand1 < p)*/)
                     {
@@ -206,7 +212,7 @@ namespace WpfMonte
                     {
                         summ += matrix[k, l];
                     }
-                //listpointEn.Add(new Point(, (summ/N)));
+                listpointEn.Add(new Point(t, (summ / N)));
             }
             fieldView.SetMatrix(matrix);
           //  File.AppendAllText(@"C:\Users\Artyo\Desktop\Test.txt", (deltaE));
